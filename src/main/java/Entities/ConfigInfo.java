@@ -13,12 +13,13 @@ public class ConfigInfo {
 
     private long frequencyTime;
     private String accessRoute;
+    private String [] organizedDocExtension;
 
     /**
      * @return the frequencyTime
      */
     public long getFrequencyTime() {
-        return frequencyTime;
+        return frequencyTime * 60000;
     }
 
     /**
@@ -40,6 +41,20 @@ public class ConfigInfo {
      */
     public void setAccessRoute(String accessRoute) {
         this.accessRoute = accessRoute;
+    }
+
+    /**
+     * @return the organizedDocExtension
+     */
+    public String[] getOrganizedDocExtension() {
+        return organizedDocExtension;
+    }
+
+    /**
+     * @param organizedDocExtension the organizedDocExtension to set
+     */
+    public void setOrganizedDocExtension(String[] organizedDocExtension) {
+        this.organizedDocExtension = organizedDocExtension;
     }
 
 }

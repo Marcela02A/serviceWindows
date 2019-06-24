@@ -25,26 +25,32 @@ import java.util.stream.Stream;
  * @author Marcela
  */
 public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String[] args) throws IOException, InterruptedException {
-
-        File miDir = new File(".");
-        ConfigDocRead cr = new ConfigDocRead(miDir.getCanonicalPath());
-        ConfigInfo configInfo = cr.read();
+        //System.getProperty("user.home")
+        start(System.getProperty("user.dir"));
+        
+    }
+    
+    public static void start(String pathInit) throws IOException, InterruptedException {
+        
+        //Declaramos Objetos necesarios
+        ConfigDocRead _configDocRead = new ConfigDocRead(pathInit);
         SynchronizedObject objectSynchronized = new SynchronizedObject();
-        System.out.println("Ruta relativa de ejecución" + miDir.getCanonicalPath());
-        Thread observerFile = new Thread(new ObserverFileEdit(miDir.getCanonicalPath() + "\\", objectSynchronized));
+        Thread observerFile = new Thread(new ObserverFileEdit(pathInit + "\\", objectSynchronized));
+        ConfigInfo configInfo = _configDocRead.read();
         OrderFile orderRute = new OrderFile(configInfo, objectSynchronized);
-
+        
+        System.out.println("Ruta relativa de ejecución " + pathInit);
+        
+        //Iniciamos hilos
         observerFile.start();
         orderRute.start();
+        
         while (true) {
             System.out.println("Esperamos algun cambio Main");
             objectSynchronized.waitChange();
-            orderRute.setConfigInfo(cr.read());
+            orderRute.setConfigInfo(_configDocRead.read());
             //se caraga de nuevo el archivo de configuracion.
             System.out.println("liberamos hilos ya se cargo la configuración Main");
             objectSynchronized.freeState();

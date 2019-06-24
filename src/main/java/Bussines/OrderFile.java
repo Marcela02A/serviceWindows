@@ -6,12 +6,13 @@
 package Bussines;
 
 import Entities.ConfigInfo;
-import com.sun.webkit.ThemeClient;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
@@ -35,23 +36,27 @@ public class OrderFile extends Thread {
         while (true) {
             try {
                 sinchronizedValue.isChangeState();
+
                 Stream<Path> _listFile = Files.list(Paths.get(getConfigInfo().getAccessRoute()));
                 System.out.println("Lectura de carpeta");
-                Path directory = Paths.get(getConfigInfo().getAccessRoute() + "\\pdf");
-                if (Files.notExists(directory)) {
-                    Files.createDirectories(directory);
+
+                for (String value : getConfigInfo().getOrganizedDocExtension()) {
+                    checkCarpet(value);
                 }
+
                 _listFile.forEach(path -> {
-                    if (isPDF(path)) {
+                    String carpetDestination;
+                    if ((carpetDestination = isExtensionAllowed(path)) != null) {
                         System.out.println(path.toFile().getName());
                         try {
-                            Path fileReplace = Files.createFile(Paths.get(getConfigInfo().getAccessRoute() + "\\pdf\\" + path.toFile().getName()));
-                            Files.copy(path, fileReplace, StandardCopyOption.REPLACE_EXISTING);
+                            if (!Files.exists(Paths.get(getConfigInfo().getAccessRoute() + "\\" + carpetDestination + "\\" + path.toFile().getName()))) {
+                                Path fileReplace = Files.createFile(Paths.get(getConfigInfo().getAccessRoute() + "\\" + carpetDestination + "\\" + path.toFile().getName()));
+                                Files.copy(path, fileReplace, StandardCopyOption.REPLACE_EXISTING);
+                            }
                             path.toFile().delete();
                         } catch (IOException ex) {
                             Logger.getLogger(OrderFile.class.getName()).log(Level.SEVERE, null, ex);
                         }
-
                     }
                 });
                 Thread.sleep(getConfigInfo().getFrequencyTime());
@@ -61,10 +66,23 @@ public class OrderFile extends Thread {
         }
     }
 
-    private boolean isPDF(Path file) {
-        boolean result = false;
-        result = file.toFile().getName().contains(".pdf");
+    private String isExtensionAllowed(Path file) {
+        String result = null;
+        File _file = file.toFile();
+        if (_file.isFile()) {
+            String[] splitName = _file.getName().split("\\.");
+            if (Arrays.asList(getConfigInfo().getOrganizedDocExtension()).contains(splitName[splitName.length - 1].toUpperCase())) {
+                result = splitName[splitName.length - 1].toUpperCase();
+            }
+        }
         return result;
+    }
+
+    public void checkCarpet(String extension) throws IOException {
+        Path directory = Paths.get(getConfigInfo().getAccessRoute() + extension.toUpperCase());
+        if (Files.notExists(directory)) {
+            Files.createDirectories(directory);
+        }
     }
 
     /**

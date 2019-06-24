@@ -1,4 +1,5 @@
 {
-  "frequencyTime": 10000,
-  "accessRoute": "C:\\Users\\Marcela\\Documents\\"
+  "frequencyTime": 1,
+  "accessRoute": "C:\\Users\\Marcela\\Downloads\\",
+  "organizedDocExtension": ["EXE","ZIP","JAVA","PDF","RDP","JPEG","RAR","M","XLS","DOCX","XLSX","DOC"]
 }
