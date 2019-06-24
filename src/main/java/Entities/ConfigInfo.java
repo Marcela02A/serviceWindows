@@ -43,16 +43,12 @@ public class ConfigInfo {
         this.accessRoute = accessRoute;
     }
 
-    /**
-     * @return the organizedDocExtension
-     */
+
     public String[] getOrganizedDocExtension() {
         return organizedDocExtension;
     }
 
-    /**
-     * @param organizedDocExtension the organizedDocExtension to set
-     */
+
     public void setOrganizedDocExtension(String[] organizedDocExtension) {
         this.organizedDocExtension = organizedDocExtension;
     }
