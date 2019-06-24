@@ -1,0 +1,15 @@
+"C:\Program Files\Java\commons-daemon-1.0.14-bin-windows\amd64\prunsrv.exe" //IS//ServiceWindows^
+ --DisplayName "Service Windows"^
+ --Description "Organiza archivos"^
+ --Startup=auto^
+ --Install="C:\Program Files\Java\commons-daemon-1.0.14-bin-windows\amd64\prunsrv.exe"^
+ --Jvm="C:\Program Files\Java\jre1.8.0_211\bin\server\jvm.dll" ^
+ --Classpath "C:\Program Files (x86)\Marcela\ServiceWindows\bin\serviceWindows-v_1.1.jar"^
+ --Environment="PATH=C:\Program Files\Java\jre1.8.0_211\bin"^
+ --JavaHome="C:\Program Files\Java\jre1.8.0_211"^
+ --JvmOptions="-XX:+HeapDumpOnOutOfMemoryError"^
+ --StartMode=jvm^
+ --StartClass=Main^
+ --StdOutput="C:\Program Files (x86)\Marcela\ServiceWindows\servicelog\service-stdout.log"^
+ --StdError="C:\Program Files (x86)\Marcela\ServiceWindows\servicelog\service-sterr.log"^
+ --StartPath="C:\Program Files (x86)\Marcela\ServiceWindows\
